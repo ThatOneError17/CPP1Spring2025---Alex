@@ -6835,7 +6835,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Sprite_Enemies_212
+      name: Thingy
       rect:
         serializedVersion: 2
         x: 174
@@ -8859,7 +8859,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Sprite_Enemies_304
+      name: Fish
       rect:
         serializedVersion: 2
         x: 270
@@ -17298,6 +17298,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
+      Fish: 6711719513740339658
       Football: 3990327019313693750
       PlayerProjectile: -7185912387340643949
       Sprite_Enemies_0: 764029468473576725
@@ -17427,7 +17428,6 @@ TextureImporter:
       Sprite_Enemies_21: -1770234010252090506
       Sprite_Enemies_210: -2474995889596191255
       Sprite_Enemies_211: 5514296625966070841
-      Sprite_Enemies_212: -3190168599987915357
       Sprite_Enemies_213: 2148425514076059779
       Sprite_Enemies_214: -1934670893646946551
       Sprite_Enemies_215: 4349600273945209780
@@ -17529,7 +17529,6 @@ TextureImporter:
       Sprite_Enemies_301: -696029971576627461
       Sprite_Enemies_302: 2594214930695094259
       Sprite_Enemies_303: 7677512627377231405
-      Sprite_Enemies_304: 6711719513740339658
       Sprite_Enemies_305: 6256657867359514333
       Sprite_Enemies_306: -7112987647769040223
       Sprite_Enemies_307: -6878621438739194497
@@ -17985,6 +17984,7 @@ TextureImporter:
       Sprite_Enemies_97: -5235741533605767461
       Sprite_Enemies_98: -3146763840220451440
       Sprite_Enemies_99: 3848975548304371034
+      Thingy: -3190168599987915357
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

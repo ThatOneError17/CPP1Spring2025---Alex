@@ -36,7 +36,7 @@ public class Shoot : MonoBehaviour
         else
         {
             curProjectile = Instantiate(projectilePrefab, spawnPointLeft.position, Quaternion.identity);
-            //Giving negative velocity to X but not why to let it keep it's arc, had to get some help with this one, because I just kept sending it into the ground
+            //Giving negative velocity to X but not Y to let it keep it's arc, had to get some help with this one, because I just kept sending it into the ground
             Vector2 flippedVelocity = new Vector2(-initShotVelocity.x, initShotVelocity.y);
             curProjectile.SetVelocity(flippedVelocity);
         }
