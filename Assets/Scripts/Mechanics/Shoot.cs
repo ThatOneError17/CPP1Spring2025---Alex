@@ -17,12 +17,11 @@ public class Shoot : MonoBehaviour
         if (initShotVelocity == Vector2.zero)
         {
             Debug.Log("Init shot velocity has not been set in the inspector, changing to default value");
-            if (sr.flipX)
-                initShotVelocity.x = 10.0f;
+            initShotVelocity.x = 7.0f;
         }
 
-        //if (!spawnPointLeft || !spawnPointRight || !projectilePrefab)
-        //    Debug.Log($"Please set default spawn or projectile values on {gameObject.name}");
+        if (!spawnPointLeft || !spawnPointRight || !projectilePrefab)
+            Debug.Log($"Please set default spawn or projectile values on {gameObject.name}");
     }
 
     public void Fire()

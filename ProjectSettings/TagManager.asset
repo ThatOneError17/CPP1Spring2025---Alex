@@ -6,6 +6,10 @@ TagManager:
   tags:
   - PowerUp
   - Projectile
+  - Barrier
+  - Squish
+  - Left
+  - Right
   layers:
   - Default
   - TransparentFX

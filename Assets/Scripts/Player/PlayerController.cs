@@ -17,6 +17,7 @@ public class PlayerController : MonoBehaviour
     public float groundCheckRadius = 0.02f;
     public LayerMask isGroundLayer;
     public bool isGrounded;
+    
 
     private Rigidbody2D rb;
     private SpriteRenderer spriteRenderer;
@@ -132,45 +133,56 @@ public class PlayerController : MonoBehaviour
 
         }
 
-
-
-
-
-        ////Checks if attacking and returns true or false
-        //bool checkIsAttacking()
-        //{
-        //    //If attacking returns true
-        //    if (attack > 0f)
-        //    {
-        //        return true;
-        //    }
-
-        //    else
-        //    {
-        //        return false;
-        //    }
-        //}
-
-        ////Checks if attacking and jumping and returns true or false
-        //bool checkIsJumpAttacking()
-        //{
-        //    //If attacking and not on ground will return true
-        //    if (attack > 0f && !isGrounded)
-        //    {
-        //        return true;
-        //    }
-
-        //    else
-        //    {
-        //        return false;
-        //    }
-        //}
-
-    }
-
-
- 
     
+
+
+
+
+
+    ////Checks if attacking and returns true or false
+    //bool checkIsAttacking()
+    //{
+    //    //If attacking returns true
+    //    if (attack > 0f)
+    //    {
+    //        return true;
+    //    }
+
+    //    else
+    //    {
+    //        return false;
+    //    }
+    //}
+
+    ////Checks if attacking and jumping and returns true or false
+    //bool checkIsJumpAttacking()
+    //{
+    //    //If attacking and not on ground will return true
+    //    if (attack > 0f && !isGrounded)
+    //    {
+    //        return true;
+    //    }
+
+    //    else
+    //    {
+    //        return false;
+    //    }
+    //}
+
+}
+
+
+
+    public void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Squish") && rb.linearVelocityY < 0)
+        {
+            collision.enabled = false;
+            collision.gameObject.GetComponentInParent<Enemy>().TakeDamage(9999, Enemy.DamageType.JumpedOn);
+            rb.linearVelocity = Vector2.zero;
+            rb.AddForce(Vector2.up * 10, ForceMode2D.Impulse);
+        }
+    }
 
 
 
