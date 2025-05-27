@@ -30,6 +30,16 @@ public class Projectile : MonoBehaviour
                 Destroy(gameObject);
             }
         }
+
+        if (type == ProjectileType.Enemy)
+        {
+            PlayerController player = collision.gameObject.GetComponent<PlayerController>();
+            if (collision.gameObject.CompareTag("Player"))
+            {
+                //GameManager.Instance.Lives--
+                Destroy(gameObject);
+            }
+        }
     }
 
 

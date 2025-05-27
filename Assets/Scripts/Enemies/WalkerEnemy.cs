@@ -19,6 +19,7 @@ public class WalkerEnemy : Enemy
     {
         if (damageType == DamageType.JumpedOn)
         {
+            xVel = 0f; // Stop movement on squish
             anim.SetTrigger("Squish");
             Destroy(transform.parent.gameObject, 0.5f);
             return;

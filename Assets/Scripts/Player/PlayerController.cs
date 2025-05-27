@@ -25,6 +25,7 @@ public class PlayerController : MonoBehaviour
 
     GroundCheck groundCheck;
 
+
     //private Vector2 groundCheckPos => new Vector2(collider.bounds.min.x + collider.bounds.extents.x, collider.bounds.min.y);
     //private Transform groundCheckTransform;
 
@@ -67,15 +68,17 @@ public class PlayerController : MonoBehaviour
             {
                 rb.linearVelocity = Vector2.zero;
             }
+
+
         }
 
         //isGrounded = CheckIsGrounded();
 
 
 
-        //float attack = Input.GetAxis("Fire1");
+        float attack = Input.GetAxis("Fire1");
 
-       
+  
 
 
 
@@ -88,11 +91,13 @@ public class PlayerController : MonoBehaviour
 
         //anim.SetBool("isGrounded", CheckIsGrounded());
         anim.SetBool("isRunning", checkIsRunning());
-        //anim.SetBool("isAttacking", checkIsAttacking());
-        //anim.SetBool("isJumpAttacking", checkIsJumpAttacking());
+        anim.SetBool("isAttacking", checkIsAttacking());
+        anim.SetBool("isJumpAttacking", checkIsJumpAttacking());
 
         anim.SetBool("isGrounded", groundCheck.IsGrounded);
 
+        if (groundCheck.IsGrounded == false && Input.GetButtonDown("Fire1")) anim.SetTrigger("JumpAttack");
+       
 
         if (Input.GetButtonDown("Jump") && groundCheck.IsGrounded)
         {
@@ -133,43 +138,43 @@ public class PlayerController : MonoBehaviour
 
         }
 
-    
 
 
 
 
 
-    ////Checks if attacking and returns true or false
-    //bool checkIsAttacking()
-    //{
-    //    //If attacking returns true
-    //    if (attack > 0f)
-    //    {
-    //        return true;
-    //    }
 
-    //    else
-    //    {
-    //        return false;
-    //    }
-    //}
+        //Checks if attacking and returns true or false
+        bool checkIsAttacking()
+        {
+            //If attacking returns true
+            if (attack > 0f)
+            {
+                return true;
+            }
 
-    ////Checks if attacking and jumping and returns true or false
-    //bool checkIsJumpAttacking()
-    //{
-    //    //If attacking and not on ground will return true
-    //    if (attack > 0f && !isGrounded)
-    //    {
-    //        return true;
-    //    }
+            else
+            {
+                return false;
+            }
+        }
 
-    //    else
-    //    {
-    //        return false;
-    //    }
-    //}
+        //Checks if attacking and jumping and returns true or false
+        bool checkIsJumpAttacking()
+        {
+            //If attacking and not on ground will return true
+            if (attack > 0f && !isGrounded)
+            {
+                return true;
+            }
 
-}
+            else
+            {
+                return false;
+            }
+        }
+
+    }
 
 
 

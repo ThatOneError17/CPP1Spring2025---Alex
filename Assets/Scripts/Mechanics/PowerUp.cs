@@ -17,7 +17,23 @@ public class PowerUp : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-           Destroy(gameObject);
+
+            switch
+            (type)
+            {
+                case PickupType.Fish:
+                    GameManager.Instance.Lives++;
+                    Debug.Log("Lives = " + GameManager.Instance.Lives);
+                    break;
+                case PickupType.Football:
+
+                    break;
+                case PickupType.Thingy:
+
+                    break;
+            }
+
+            Destroy(gameObject);
         }
     }
 }

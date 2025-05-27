@@ -9,6 +9,17 @@ public class Kamek : Enemy
 
     [Range(1, 20)]
     public int range;
+    
+    private void Awake()
+    {
+        GameManager.Instance.OnPlayerControllerCreated += SetPlayerRef;
+    }
+
+    private PlayerController SetPlayerRef(PlayerController playerInstance)
+    {
+        player = playerInstance.transform;
+        return playerInstance;
+    }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     protected override void Start()
     {
@@ -29,18 +40,18 @@ public class Kamek : Enemy
         if (player.position.x > transform.position.x && player.position.x <= transform.position.x + range)
         {
             sr.flipX = false;
-            Debug.Log("Player is to the right of Kamek and is within range");
+            //Debug.Log("Player is to the right of Kamek and is within range");
             anim.SetBool("InRange", true);
         }
         else if (player.position.x < transform.position.x && player.position.x >= transform.position.x - range)
         {
             sr.flipX = true;
-            Debug.Log("Player is to the left of Kamek and is within range");
+            //Debug.Log("Player is to the left of Kamek and is within range");
             anim.SetBool("InRange", true);
         }
         else
         {
-            Debug.Log("Player is out of range");
+            //Debug.Log("Player is out of range");
             anim.SetBool("InRange", false);
         }
 
