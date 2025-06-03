@@ -47,6 +47,10 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        if (GameManager.isPaused)
+            return; //Should ignore all other update related functions if game is paused
+
         //For animation stuff, gettinfo from base layer of animations, which we only have 0
         AnimatorClipInfo[] curPlayingClips = anim.GetCurrentAnimatorClipInfo(0);
 
