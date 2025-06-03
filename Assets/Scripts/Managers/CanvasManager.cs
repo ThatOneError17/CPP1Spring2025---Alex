@@ -79,6 +79,9 @@ public class CanvasManager : MonoBehaviour
             Debug.LogError("Scene name is null or empty.");
             return;
         }
+        GameManager.isPaused = false; //When changing scenes will make sure the game is no longer paused
+        Time.timeScale = 1; //Will also set timescale back to 1 
+
         SceneManager.LoadScene(sceneName);
         Debug.Log("Changing scene to: " + sceneName);
     }
