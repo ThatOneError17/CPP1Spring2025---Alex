@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PowerUp : MonoBehaviour
 {
+    public AudioClip pickupSound;
     public enum PickupType
     {
         Fish,
@@ -17,13 +18,18 @@ public class PowerUp : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
+            if (pickupSound)
+                GetComponent<AudioSource>().PlayOneShot(pickupSound); //Plays pickupsound corresponding to each object
 
             switch
             (type)
             {
+                 
                 case PickupType.Fish:
+                   
                     GameManager.Instance.Lives++;
                     Debug.Log("Lives = " + GameManager.Instance.Lives);
+                   
                     break;
                 case PickupType.Football:
 
@@ -33,7 +39,14 @@ public class PowerUp : MonoBehaviour
                     break;
             }
 
-            Destroy(gameObject);
+            Physics2D.IgnoreCollision(collision, GetComponent<Collider2D>());
+            GetComponent<SpriteRenderer>().enabled = false;
+
+            if (pickupSound)
+                Destroy(gameObject, pickupSound.length);
+
+            else
+                Destroy(gameObject);
         }
     }
 }

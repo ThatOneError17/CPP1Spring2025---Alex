@@ -2,9 +2,14 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
+using Unity.VisualScripting;
+using UnityEngine.Audio;
 
 public class CanvasManager : MonoBehaviour
 {
+
+    public AudioMixer mixer;
+
     [Header("Buttons")]
     public Button startBtn;
     public Button quitBtn;
@@ -18,13 +23,21 @@ public class CanvasManager : MonoBehaviour
     public GameObject settingsCanvas;
     public GameObject pauseMenuCanvas;
     public GameObject hudCanvas;
-
-    [Header("Text")]
-    public TMP_Text volSliderText;
-    public TMP_Text livesText;
+    public GameObject gameOverCanvas;
 
     [Header("Sliders")]
-    public Slider volSlider;
+    public Slider masterVolSlider;
+    public Slider musicVolSlider;
+    public Slider sfxVolSlider;
+
+    [Header("Text")]
+    public TMP_Text masterVolSliderText;
+    public TMP_Text musicVolSliderText;
+    public TMP_Text sfxVolSliderText;
+    public TMP_Text livesText;
+
+    [Header("Audio")]
+    public AudioClip pause;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -33,7 +46,7 @@ public class CanvasManager : MonoBehaviour
         if (quitBtn) quitBtn.onClick.AddListener(QuitGame);
         if (settingsBtn) settingsBtn.onClick.AddListener(() => SetMenus(settingsCanvas, mainMenuCanvas));
         if (resumeBtn) resumeBtn.onClick.AddListener(resumeGame);
-       
+
 
         if (backBtn)
         {
@@ -46,17 +59,30 @@ public class CanvasManager : MonoBehaviour
 
         if (returnToMenu) returnToMenu.onClick.AddListener(() => ChangeScene("Title"));
 
-        if (volSlider)
-        {
-            volSlider.onValueChanged.AddListener(OnVolSliderChanged);
-            OnVolSliderChanged(volSlider.value); // Initialize the text with the current slider value
-        }
+        
 
         if (livesText)
         {
             GameManager.Instance.OnLivesChanged += UpdateLivesText;
             UpdateLivesText(GameManager.Instance.Lives); // Initialize the text with the current lives value
         }
+
+        if (masterVolSlider)
+        {
+            SetupSliderInformation(masterVolSlider, masterVolSliderText, "MasterVol");
+            OnSliderValueChanged(masterVolSlider.value, masterVolSlider, masterVolSliderText, "MasterVol"); // Initialize the text with the current value
+        }
+        if (musicVolSlider)
+        {
+            SetupSliderInformation(musicVolSlider, musicVolSliderText, "MusicVol");
+            OnSliderValueChanged(musicVolSlider.value, musicVolSlider, musicVolSliderText, "MusicVol"); // Initialize the text with the current value
+        }
+        if (sfxVolSlider)
+        {
+            SetupSliderInformation(sfxVolSlider, sfxVolSliderText, "SFXVol");
+            OnSliderValueChanged(sfxVolSlider.value, sfxVolSlider, sfxVolSliderText, "SFXVol"); // Initialize the text with the current value
+        }
+
     }
 
     private void UpdateLivesText(int value)
@@ -64,13 +90,44 @@ public class CanvasManager : MonoBehaviour
         livesText.text = $"Lives: {value}";
     }
 
-    private void OnVolSliderChanged(float valueChanged)
+   
+    private void SetupSliderInformation(Slider slider, TMP_Text sliderText, string mixerParameterName)
     {
-        float roundedValue = Mathf.Round(valueChanged * 100);
-        if (volSliderText) volSliderText.text = $"{roundedValue}%";
+        slider.onValueChanged.AddListener((value) => OnSliderValueChanged(value, slider, sliderText, mixerParameterName));
+        
     }
 
-    
+    private void OnSliderValueChanged(float value, Slider slider, TMP_Text sliderText, string mixerParameterName)
+    {
+
+        if (value == 0)
+        {
+            value = -80; // Set to minimum to audio mixer
+        }
+
+        else
+        {
+            value = Mathf.Log10(slider.value) * 20; // Convert to decibels
+        }
+
+        sliderText.text = (value == -80) ? "0%" : $"{(int)(slider.value * 100)}";
+        mixer.SetFloat(mixerParameterName, value);
+
+
+
+
+    }
+
+    public void HideGameOverCanvas()
+    {
+        gameOverCanvas.SetActive(false);
+    }
+
+    public void ShowGameOverCanvas()
+    {
+        gameOverCanvas.SetActive(true);
+    }
+
 
     public void ChangeScene(string sceneName)
     {
@@ -129,9 +186,13 @@ public class CanvasManager : MonoBehaviour
                 SetMenus(pauseMenuCanvas, hudCanvas);
                 Time.timeScale = 0;
                 GameManager.isPaused = true;
-                
+             
+                GetComponent<AudioSource>().PlayOneShot(pause); //Pause sound effect
+              
+
             }
         }
+
     }
 
 

@@ -8,9 +8,19 @@ public class GameManager : MonoBehaviour
     public delegate PlayerController PlayerControllerDelegate(PlayerController playerInstance);
     public event PlayerControllerDelegate OnPlayerControllerCreated;
 
+    private float deathTimer = 0f; // Timer for death animation or effects, if needed
+
     public event Action<int> OnLivesChanged;
 
+    public AudioClip gameOver;
+    public AudioClip death;
+
     public static bool isPaused = false; //Will change if game is paused
+
+    public CanvasManager CanvasManager; //Reference to the CanvasManager for UI handling
+
+    
+
 
     #region Singleton Pattern
     private static GameManager _instance;
@@ -18,6 +28,7 @@ public class GameManager : MonoBehaviour
 
     void Awake()
     {
+
         if (!_instance)
         {
             _instance = this;
@@ -39,6 +50,7 @@ public class GameManager : MonoBehaviour
     #region Game Stats
     public int maxLives = 3;
     private int lives = 3;
+    private float sfxTimer = 0f;
     public int Lives
     {
         get
@@ -54,6 +66,7 @@ public class GameManager : MonoBehaviour
             }
             if (lives > value)
             {
+                GetComponent<AudioSource>().PlayOneShot(death);
                 Respawn();
             }
             lives = value;
@@ -71,11 +84,15 @@ public class GameManager : MonoBehaviour
             maxLives = 3; // Default value if not set
 
         Lives = maxLives;
+
+
     }
 
     // Update is called once per frame
     void Update()
     {
+
+
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             string currentSceneName = SceneManager.GetActiveScene().name;
@@ -83,7 +100,6 @@ public class GameManager : MonoBehaviour
 
             if (currentSceneName == "Game")
             {
-
                 Debug.Log("Exiting to Title Scene");
                 // If we are in the Game scene, we exit to the Title scene
                 loadedSceneName = "Title";
@@ -123,16 +139,22 @@ public class GameManager : MonoBehaviour
 
     private void Respawn()
     {
+        
         Debug.Log("Respawn goes here");
         //TODO: Respawn animation then reset player position
+        
+        
+
         playerInstance.transform.position = currentCheckpoint;
     }
 
     private void GameOver()
     {
+
         SceneManager.LoadScene("GameOver");
-        Debug.Log("Game Over goes here");
         Lives = maxLives; // Reset lives to max on game over
+        GetComponent<AudioSource>().PlayOneShot(gameOver);
+        Debug.Log("Game Over goes here");
 
     }
 

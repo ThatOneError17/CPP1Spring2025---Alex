@@ -2,7 +2,11 @@ using UnityEngine;
 
 public class Shoot : MonoBehaviour
 {
+
+    public AudioClip fireSound;
+
     private SpriteRenderer sr;
+    private AudioSource audioSource;
 
     [SerializeField] private Vector2 initShotVelocity = Vector2.zero;
     [SerializeField] private Transform spawnPointRight;
@@ -13,6 +17,7 @@ public class Shoot : MonoBehaviour
     private void Start()
     {
         sr = GetComponent<SpriteRenderer>();
+        audioSource = GetComponent<AudioSource>();
 
         if (initShotVelocity == Vector2.zero)
         {
@@ -27,6 +32,7 @@ public class Shoot : MonoBehaviour
     public void Fire()
     {
         Projectile curProjectile;
+
         if (!sr.flipX)
         {
             curProjectile = Instantiate(projectilePrefab, spawnPointRight.position, Quaternion.identity);
@@ -39,6 +45,7 @@ public class Shoot : MonoBehaviour
             Vector2 flippedVelocity = new Vector2(-initShotVelocity.x, initShotVelocity.y);
             curProjectile.SetVelocity(flippedVelocity);
         }
+        audioSource.PlayOneShot(fireSound);
     }
 
 }

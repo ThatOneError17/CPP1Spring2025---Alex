@@ -36,7 +36,9 @@ public class Projectile : MonoBehaviour
             PlayerController player = collision.gameObject.GetComponent<PlayerController>();
             if (collision.gameObject.CompareTag("Player"))
             {
-                //GameManager.Instance.Lives--
+
+                GameManager.Instance.Lives--;
+
                 Destroy(gameObject);
             }
         }

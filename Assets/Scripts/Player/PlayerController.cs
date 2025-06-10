@@ -1,4 +1,5 @@
 using UnityEditor.Tilemaps;
+using System;
 using UnityEngine;
 
 //RequireComponent can only have 3
@@ -7,6 +8,14 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+
+    public event Action<AudioClip> OnPlaySoundEffect;
+
+    public AudioClip jumpSound;
+    public AudioClip deathSound;
+    public AudioClip lifeSound;
+    public AudioClip stompSound;
+
     [Range(3, 10)]
     public float speed = 6.0f;
 
@@ -22,6 +31,7 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D rb;
     private SpriteRenderer spriteRenderer;
     private Animator anim;
+    private AudioSource audioSource;
 
     GroundCheck groundCheck;
 
@@ -35,6 +45,7 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         anim = GetComponent<Animator>();
+        audioSource = GetComponent<AudioSource>(); 
 
 
         groundCheck = new GroundCheck(LayerMask.GetMask("Ground"), GetComponent<Collider2D>(), rb, ref groundCheckRadius);
@@ -50,6 +61,8 @@ public class PlayerController : MonoBehaviour
 
         if (GameManager.isPaused)
             return; //Should ignore all other update related functions if game is paused
+
+ 
 
         //For animation stuff, gettinfo from base layer of animations, which we only have 0
         AnimatorClipInfo[] curPlayingClips = anim.GetCurrentAnimatorClipInfo(0);
@@ -106,6 +119,7 @@ public class PlayerController : MonoBehaviour
         if (Input.GetButtonDown("Jump") && groundCheck.IsGrounded)
         {
             rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+            audioSource.PlayOneShot(jumpSound);  //Use this format to play sound effects
         }
 
 
@@ -190,6 +204,7 @@ public class PlayerController : MonoBehaviour
             collision.gameObject.GetComponentInParent<Enemy>().TakeDamage(9999, Enemy.DamageType.JumpedOn);
             rb.linearVelocity = Vector2.zero;
             rb.AddForce(Vector2.up * 10, ForceMode2D.Impulse);
+            audioSource.PlayOneShot(stompSound); // Play fire sound effect when squishing an enemy
         }
     }
 
